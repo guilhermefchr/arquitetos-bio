@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Diagnóstico Comercial | Guilherme • Tekton Digital</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Diagnóstico de performance comercial por Guilherme (Tekton Digital). Descubra os gargalos do seu funil em menos de 1 minuto.">
+  <meta name="author" content="Guilherme - Tekton Digital">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Diagnóstico Comercial | Guilherme • Tekton Digital">
+  <meta property="og:description" content="Descubra onde seu funil de vendas pode estar perdendo oportunidades em menos de 1 minuto.">
+  <meta property="og:type" content="website">
+  
+  <!-- Google Fonts: Red Hat Display (Primary Typography) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,700&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background-glow"></div>
+
+  <div class="app-container">
+
+    <!-- Main Content Card / Router -->
+    <main class="main-card" id="mainCard">
+
+      <!-- ========================================== -->
+      <!-- SCREEN 0: HERO / START (Layout Fiel à Imagem) -->
+      <!-- ========================================== -->
+      <section class="screen active" id="screenHero">
+        
+        <!-- Hero Top Image & Brand Badge Header -->
+        <div class="hero-header-card">
+          <div class="hero-portrait-container">
+            <img src="./assets/Guilherme.webp" alt="Guilherme - Tekton Digital" class="hero-portrait-img" id="profileImg">
+            <div class="hero-brand-overlay">
+              <img src="./assets/Logo Tekton Fundo Escuro.webp" alt="Tekton Digital Logo" class="hero-brand-logo">
+            </div>
+          </div>
+        </div>
+
+        <!-- Container 1: 3 Pillars Grid -->
+        <div class="hero-pillars-card">
+          <div class="pillar-column">
+            <div class="pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            </div>
+            <div class="pillar-label">
+              Mais Leads <br><em>Qualificados</em>
+            </div>
+          </div>
+
+          <div class="pillar-divider"></div>
+
+          <div class="pillar-column">
+            <div class="pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            </div>
+            <div class="pillar-label">
+              Processos mais <br><em>eficientes</em>
+            </div>
+          </div>
+
+          <div class="pillar-divider"></div>
+
+          <div class="pillar-column">
+            <div class="pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <div class="pillar-label">
+              Mais conversão e <br><em>resultados</em>
+            </div>
+          </div>
+        </div>
+
+        <!-- Container 2: Authority Profile Card -->
+        <div class="hero-authority-card">
+          <div class="auth-identity">
+            <h2 class="auth-name">Guilherme</h2>
+            <span class="auth-tag">Tekton Digital</span>
+          </div>
+
+          <div class="auth-divider"></div>
+
+          <div class="auth-bio">
+            Especialista em estruturar processos comerciais com foco em <em>previsibilidade, tecnologia e eficiência.</em>
+          </div>
+        </div>
+
+        <!-- Container 3: Main CTA Card -->
+        <div class="hero-cta-card">
+          <p class="cta-heading">
+            Vamos identificar juntos onde estão as <br><em>oportunidades do seu funil de vendas.</em>
+          </p>
+
+          <button type="button" class="btn btn-cta-animated" id="btnStartDiagnostic">
+            <span class="btn-text">Fazer diagnóstico</span>
+            <svg class="btn-diagonal-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </button>
+
+          <div class="cta-card-divider"></div>
+
+          <div class="cta-micro-info">
+            <svg class="pulse-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Resposta rápida em menos de 1 min</span>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================== -->
+      <!-- SCREEN 1: QUESTION STEPS (DYNAMIC 1..4)    -->
+      <!-- ========================================== -->
+      <section class="screen" id="screenQuestion">
+        
+        <!-- Top Step Header Navigation -->
+        <div class="step-nav-bar">
+          <button type="button" class="btn-back" id="btnStepBack" aria-label="Voltar para etapa anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Voltar</span>
+          </button>
+          
+          <div class="step-indicator">
+            <span class="step-counter" id="stepCounterText">Etapa 1 de 4</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar Track -->
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressBarFill" style="width: 25%;"></div>
+        </div>
+
+        <!-- Micro Toast Message -->
+        <div class="micro-toast" id="microToast" aria-live="polite"></div>
+
+        <!-- Step Question Container -->
+        <div class="question-container">
+          <div class="question-header-card">
+            <h2 class="question-title" id="questionTitle">Carregando...</h2>
+            <p class="question-subtitle" id="questionSubtitle"></p>
+          </div>
+
+          <!-- Dynamic Options Grid -->
+          <div class="options-grid" id="optionsGrid">
+            <!-- Rendered dynamically by script.js -->
+          </div>
+        </div>
+
+        <!-- Multi-select Action Bar (Step 2) -->
+        <div class="question-footer-action" id="questionFooterAction" style="display: none;">
+          <button type="button" class="btn btn-primary" id="btnStepContinue" disabled>
+            <span>Continuar</span>
+            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </section>
+
+
+      <!-- ========================================== -->
+      <!-- SCREEN 2: LOADING ANALYSIS                 -->
+      <!-- ========================================== -->
+      <section class="screen" id="screenLoading">
+        <div class="loading-content">
+          <div class="spinner-ring"></div>
+          <h2 class="loading-title">Analisando seu processo...</h2>
+          <p class="loading-subtitle">Cruzando suas respostas com as melhores práticas de performance comercial</p>
+        </div>
+      </section>
+
+
+      <!-- ========================================== -->
+      <!-- SCREEN 3: RESULT & CONVERSION             -->
+      <!-- ========================================== -->
+      <section class="screen" id="screenResult">
+        
+        <!-- Outstanding Result Header Card -->
+        <div class="result-header-card">
+          <div class="result-badge-tag" id="resultTag">Diagnóstico de Funil</div>
+          <h1 class="result-title" id="resultTitle">Seu principal indício de gargalo está na qualificação.</h1>
+          <p class="result-text" id="resultText">
+            Você pode estar atraindo interessados, mas sem filtros para identificar quem realmente tem perfil de compra...
+          </p>
+        </div>
+
+        <!-- Disclaimer Box -->
+        <div class="disclaimer-box">
+          <div class="disclaimer-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <p class="disclaimer-text">
+            Este é um <strong>indício inicial</strong> baseado nas suas escolhas. Uma análise aprofundada avalia o contexto completo do seu negócio.
+          </p>
+        </div>
+
+        <!-- Summary Recap (User Responses) -->
+        <div class="summary-recap-box">
+          <h4 class="summary-recap-title">Resumo do cenário selecionado:</h4>
+          <div class="summary-tags" id="summaryTags">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Conversion Offer Area -->
+        <div class="checklist-offer-area" id="checklistOfferArea">
+          <h3 class="offer-title">Quer receber um checklist prático com os pontos para corrigir no seu processo?</h3>
+          
+          <div class="offer-actions" id="offerInitialButtons">
+            <button type="button" class="btn btn-primary" id="btnAcceptChecklist">
+              <span>Sim, quero receber o checklist</span>
+            </button>
+            <button type="button" class="btn btn-secondary" id="btnDeclineChecklist">
+              <span>Não, obrigado</span>
+            </button>
+          </div>
+
+          <!-- WhatsApp & Name Contact Form -->
+          <form class="contact-form" id="contactForm" style="display: none;" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="contactNameInput">Seu nome</label>
+              <input type="text" id="contactNameInput" class="form-control" placeholder="Digite seu nome completo" required>
+              <div class="form-error" id="contactNameError">Por favor, informe seu nome.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" id="contactValueLabel" for="contactValueInput">Seu WhatsApp</label>
+              <input type="tel" id="contactValueInput" class="form-control" placeholder="(11) 99999-9999" required>
+              <div class="form-error" id="contactValueError">Por favor, insira um WhatsApp válido.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="btnSubmitContact">
+              <span>Enviar Meu Checklist</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </form>
+
+          <!-- Thank You / Success Card -->
+          <div class="success-card" id="successCard" style="display: none;">
+            <div class="success-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3 class="success-title">Checklist Solicitado</h3>
+            <p class="success-text" id="successMessageText">Em breve Guilherme enviará o material direto para o seu WhatsApp.</p>
+            
+            <a href="https://instagram.com/tekton.guilherme" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-full" id="btnReturnInstagramSuccess">
+              <span>Voltar para o Instagram</span>
+            </a>
+          </div>
+
+          <!-- Decline / Return State -->
+          <div class="decline-area" id="declineArea" style="display: none;">
+            <a href="https://instagram.com/tekton.guilherme" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-full" id="btnReturnInstagramDecline">
+              <span>Voltar para o Instagram</span>
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="app-footer app-footer-minimal">
+      <p class="footer-copy">Tekton Digital &copy; <span id="currentYear">2026</span> &bull; Todos os direitos reservados</p>
+    </footer>
+
+  </div>
+
+  <!-- Webhook Configuration Modal -->
+  <div class="modal-backdrop" id="settingsModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Configuração de Webhook</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-help">Defina a URL de destino (n8n, Make, Zapier ou CRM) para envio dos leads do diagnóstico.</p>
+        <div class="form-group">
+          <label class="form-label" for="webhookUrlInput">URL do Webhook</label>
+          <input type="url" id="webhookUrlInput" class="form-control" placeholder="https://seu-webhook.com/endpoint">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="instagramHandleInput">Instagram (@usuario)</label>
+          <input type="text" id="instagramHandleInput" class="form-control" placeholder="@tekton.guilherme">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnSaveSettings">Salvar Configurações</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
