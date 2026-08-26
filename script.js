@@ -549,18 +549,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const catName = catData.tag.replace('Gargalo: ', '').toLowerCase();
     const catDesc = catData.text;
 
-    const rawText = `${greeting} Aqui é o Guilherme da Tekton Digital.\n\n` +
+    return `${greeting} Aqui é o Guilherme da Tekton Digital.\n\n` +
       `Vi que você preencheu o diagnóstico comercial. Dei uma olhada no seu cenário:\n\n` +
-      `• Apresentação da oferta: ${estr}\n` +
+      `• Estrutura da oferta: ${estr}\n` +
       `• Qualificação de contatos: ${qual}\n` +
       `• Organização de dados: ${auto}\n` +
       `• Faturamento / Ticket: ${fat}\n\n` +
       `Pelo seu diagnóstico, o ponto prioritário para ajustar é ${catName}.\n${catDesc}\n\n` +
-      `Separei um material prático para otimizar esse fluxo e aumentar a conversão do seu comercial. Me avisa se podemos conversarmos por aqui!`;
-
-    return rawText
-      .replace(/\r?\n/g, '\\n')
-      .replace(/"/g, '\\"');
+      `Separei um material prático para otimizar esse fluxo e aumentar a conversão do seu comercial. Me avisa se podemos conversar por aqui!`;
   }
 
   function sendWebhookPayload(extraData = {}) {
@@ -584,41 +580,59 @@ document.addEventListener('DOMContentLoaded', () => {
     const personalizedMessage = buildPersonalizedMessage(state, extraData);
 
     const payload = {
+      // 1. Metadados da requisição
       timestamp: new Date().toISOString(),
       action: extraData.action || 'diagnostic_completed',
       lead_opted_in: extraData.lead_opted_in || false,
+      
+      // 2. Dados de Contato do Lead (Vários aliases para mapeamento fácil no Make)
       nome: rawName || 'Não informado',
+      name: rawName || 'Não informado',
       whatsapp: rawVal || null,
+      telefone: rawVal || null,
+      phone: rawVal || null,
       whatsapp_raw: digitsOnly || null,
       
-      // Respostas do Diagnóstico
+      // 3. Respostas Atuais do Diagnóstico
       estrutura_pagina: state.answers.estrutura_pagina || '',
       qualificacao_lead: state.answers.qualificacao_lead || '',
       automacao_crm: state.answers.automacao_crm || '',
       faixa_faturamento: state.answers.faixa_faturamento || '',
       
-      // Inteligência de Vendas / Qualificação de Lead
+      // 4. Aliases de Legado (caso o cenário no Make esteja usando as chaves antigas)
+      momento_comercial: state.answers.estrutura_pagina || '',
+      origem_clientes: state.answers.qualificacao_lead || '',
+      objetivo_curto_prazo: state.answers.automacao_crm || '',
+      
+      // 5. Diagnóstico & Qualificação
+      categoria_resultado: catKey,
       categoria_gargalo: catKey,
+      gargalo: catData ? catData.tag : '',
       gargalo_titulo: catData ? catData.tag : '',
+      gargalo_descricao: catData ? catData.text : '',
       lead_tier: tierData.tier,
       lead_tier_label: tierData.label,
       
-      // Mensagens de Automação (Make/n8n/WhatsApp)
+      // 6. Mensagens Formatadas para WhatsApp / CRM (sem caracteres corrompidos)
+      mensagem: personalizedMessage,
       mensagem_personalizada: personalizedMessage,
-      mensagem_whatsapp: personalizedMessage
+      mensagem_whatsapp: personalizedMessage,
+      
+      // 7. Resumo das respostas em texto corrido
+      resumo_respostas: `1. Estrutura: ${state.answers.estrutura_pagina || 'N/A'} | 2. Qualificação: ${state.answers.qualificacao_lead || 'N/A'} | 3. Automação: ${state.answers.automacao_crm || 'N/A'} | 4. Faturamento: ${state.answers.faixa_faturamento || 'N/A'}`
     };
 
     console.log('🚀 Sending Make Webhook Payload:', payload);
 
-    if (CONFIG.WEBHOOK_URL) {
-      fetch(CONFIG.WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(res => console.log('✅ Make Webhook OK:', res.status))
-      .catch(err => console.warn('⚠️ Make Webhook Error:', err));
-    }
+    const targetUrl = CONFIG.WEBHOOK_URL || 'https://hook.us2.make.com/fa4i37r16p3mjadowmycsyyku1qtyb4b';
+
+    fetch(targetUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(res => console.log('✅ Make Webhook OK:', res.status))
+    .catch(err => console.warn('⚠️ Make Webhook Error:', err));
   }
 
   function setupEventListeners() {
