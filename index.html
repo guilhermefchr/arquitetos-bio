@@ -252,11 +252,12 @@
             <div class="success-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <h3 class="success-title">Checklist Solicitado</h3>
-            <p class="success-text" id="successMessageText">Em breve Guilherme enviará o material direto para o seu WhatsApp.</p>
+            <h3 class="success-title">Checklist Solicitado!</h3>
+            <p class="success-text" id="successMessageText">Seus dados foram registrados com sucesso. Clique no botão abaixo para iniciar uma conversa direta no WhatsApp com Guilherme.</p>
             
-            <a href="https://instagram.com/tekton.guilherme" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-full" id="btnReturnInstagramSuccess">
-              <span>Voltar para o Instagram</span>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-full" id="btnWhatsAppSuccess">
+              <svg class="btn-wa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 20px; height: 20px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>Falar com Guilherme no WhatsApp</span>
             </a>
           </div>
 
@@ -283,14 +284,18 @@
   <div class="modal-backdrop" id="settingsModal" style="display: none;">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>Configuração de Webhook</h3>
+        <h3>Configurações do Diagnóstico</h3>
         <button type="button" class="btn-close-modal" id="btnCloseModal">&times;</button>
       </div>
       <div class="modal-body">
-        <p class="modal-help">Defina a URL de destino (n8n, Make, Zapier ou CRM) para envio dos leads do diagnóstico.</p>
+        <p class="modal-help">Defina a URL de destino do Webhook, o número do seu WhatsApp de atendimento e seu Instagram.</p>
         <div class="form-group">
           <label class="form-label" for="webhookUrlInput">URL do Webhook</label>
           <input type="url" id="webhookUrlInput" class="form-control" placeholder="https://seu-webhook.com/endpoint">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="whatsappNumberInput">Seu WhatsApp (com DDD, ex: 5511999999999)</label>
+          <input type="tel" id="whatsappNumberInput" class="form-control" placeholder="5511999999999">
         </div>
         <div class="form-group">
           <label class="form-label" for="instagramHandleInput">Instagram (@usuario)</label>

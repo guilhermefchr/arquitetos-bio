@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const CONFIG = {
     WEBHOOK_URL: localStorage.getItem('guilherme_webhook_url') || 'https://hook.us2.make.com/fa4i37r16p3mjadowmycsyyku1qtyb4b',
     INSTAGRAM_HANDLE: localStorage.getItem('guilherme_insta_handle') || '@tekton.guilherme',
+    WHATSAPP_NUMBER: localStorage.getItem('guilherme_whatsapp_number') || '',
     AUTO_ADVANCE_DELAY_MS: 300,
     LOADING_ANIMATION_MS: 800
   };
@@ -156,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const headerHandleText = document.getElementById('headerHandleText');
   const headerInstagramLink = document.getElementById('headerInstagramLink');
   const footerInstagramLink = document.getElementById('footerInstagramLink');
-  const btnReturnInstagramSuccess = document.getElementById('btnReturnInstagramSuccess');
+  const btnWhatsAppSuccess = document.getElementById('btnWhatsAppSuccess');
   const btnReturnInstagramDecline = document.getElementById('btnReturnInstagramDecline');
 
   const btnOpenSettings = document.getElementById('btnOpenSettings');
@@ -165,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSaveSettings = document.getElementById('btnSaveSettings');
   const webhookUrlInput = document.getElementById('webhookUrlInput');
   const instagramHandleInput = document.getElementById('instagramHandleInput');
+  const whatsappNumberInput = document.getElementById('whatsappNumberInput');
 
   function init() {
     updateInstagramLinks(CONFIG.INSTAGRAM_HANDLE);
@@ -217,8 +219,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (headerHandleText) headerHandleText.textContent = formatted;
     if (headerInstagramLink) headerInstagramLink.href = fullUrl;
     if (footerInstagramLink) footerInstagramLink.href = fullUrl;
-    if (btnReturnInstagramSuccess) btnReturnInstagramSuccess.href = fullUrl;
     if (btnReturnInstagramDecline) btnReturnInstagramDecline.href = fullUrl;
+  }
+
+  function updateWhatsAppRedirectUrl(leadName) {
+    if (!btnWhatsAppSuccess) return;
+
+    let rawNumber = (CONFIG.WHATSAPP_NUMBER || '').replace(/\D/g, '');
+    if (rawNumber.length >= 10 && !rawNumber.startsWith('55')) {
+      rawNumber = '55' + rawNumber;
+    }
+
+    const nameStr = (leadName && leadName !== 'Não informado') ? `Sou ${leadName}. ` : '';
+    const message = `Fala Guilherme! ${nameStr}Acabei de preencher o diagnóstico comercial e gostaria de conversar!`;
+    const encoded = encodeURIComponent(message);
+
+    if (rawNumber) {
+      btnWhatsAppSuccess.href = `https://wa.me/${rawNumber}?text=${encoded}`;
+    } else {
+      btnWhatsAppSuccess.href = `https://wa.me/?text=${encoded}`;
+    }
   }
 
   function switchScreen(screenName) {
@@ -661,6 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
       state.answers.nome = contactName || 'Não informado';
 
       sendWebhookPayload({ action: 'checklist_requested', lead_opted_in: true, contato: contactData });
+      updateWhatsAppRedirectUrl(contactName);
 
       setTimeout(() => {
         contactForm.style.display = 'none';
@@ -672,6 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnOpenSettings.addEventListener('click', () => {
         webhookUrlInput.value = CONFIG.WEBHOOK_URL;
         instagramHandleInput.value = CONFIG.INSTAGRAM_HANDLE;
+        if (whatsappNumberInput) whatsappNumberInput.value = CONFIG.WHATSAPP_NUMBER;
         settingsModal.style.display = 'flex';
       });
     }
@@ -681,6 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (urlParams.get('admin') === '1' && settingsModal) {
       webhookUrlInput.value = CONFIG.WEBHOOK_URL;
       instagramHandleInput.value = CONFIG.INSTAGRAM_HANDLE;
+      if (whatsappNumberInput) whatsappNumberInput.value = CONFIG.WHATSAPP_NUMBER;
       settingsModal.style.display = 'flex';
     }
 
@@ -694,12 +717,15 @@ document.addEventListener('DOMContentLoaded', () => {
       btnSaveSettings.addEventListener('click', () => {
         const url = webhookUrlInput.value.trim();
         const handle = instagramHandleInput.value.trim() || '@tekton.guilherme';
+        const waNum = whatsappNumberInput ? whatsappNumberInput.value.trim() : '';
 
         CONFIG.WEBHOOK_URL = url;
         CONFIG.INSTAGRAM_HANDLE = handle;
+        CONFIG.WHATSAPP_NUMBER = waNum;
 
         localStorage.setItem('guilherme_webhook_url', url);
         localStorage.setItem('guilherme_insta_handle', handle);
+        localStorage.setItem('guilherme_whatsapp_number', waNum);
 
         updateInstagramLinks(handle);
         settingsModal.style.display = 'none';
