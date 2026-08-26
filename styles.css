@@ -839,17 +839,36 @@ body {
 }
 
 .result-badge-tag {
-  display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--accent-orange);
+  letter-spacing: 0.05em;
+  color: #ff8c42;
   background: rgba(196, 90, 26, 0.22);
-  border: 1px solid rgba(196, 90, 26, 0.45);
-  padding: 4px 12px;
+  border: 1.5px solid var(--accent-orange);
+  padding: 6px 14px;
   border-radius: var(--radius-full);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 0 16px rgba(196, 90, 26, 0.35);
+}
+
+.result-badge-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: var(--accent-orange);
+  flex-shrink: 0;
+}
+
+.result-badge-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--accent-orange);
 }
 
 .result-title {

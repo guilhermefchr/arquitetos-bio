@@ -17,69 +17,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const QUESTIONS = [
     {
-      id: 'momento_comercial',
+      id: 'estrutura_pagina',
       step: 1,
-      title: 'Qual o momento do seu comercial hoje?',
-      subtitle: 'Selecione seu cenário atual.',
+      title: 'Como você apresenta e vende seu produto ou serviço hoje?',
+      subtitle: 'Selecione onde seu potencial cliente chega primeiro.',
       type: 'single',
-      toast: 'Boa. Já identificamos uma parte importante.',
+      toast: 'Boa. A estrutura da página é o primeiro filtro comercial.',
       options: [
-        'Dependo de indicações e networking.',
-        'Recebo contatos, mas a maioria é desqualificada.',
-        'Faço reuniões, mas a taxa de fechamento é baixa.',
-        'Ainda não tenho um processo estruturado.'
+        'Tenho uma Página de Vendas (Landing Page) dedicada.',
+        'Atendo direto no WhatsApp ou mensagem privada sem ter uma página.',
+        'Tenho uma Página de Vendas, mas ela tem baixa conversão.',
+        'Tenho apenas um site institucional genérico ou link na bio.'
       ]
     },
     {
-      id: 'origem_clientes',
+      id: 'qualificacao_lead',
       step: 2,
-      title: 'De onde vêm seus melhores clientes hoje?',
-      subtitle: 'Selecione a principal origem dos seus leads.',
+      title: 'Como funciona a qualificação dos leads antes do atendimento?',
+      subtitle: 'Selecione como seu comercial filtra os contatos.',
       type: 'single',
-      toast: 'Entender suas fontes é fundamental.',
+      toast: 'Excelente. A qualificação no pré-atendimento evita curiosos.',
       options: [
-        'Redes Sociais (Instagram/WhatsApp)',
-        'Tráfego Pago / Landing Pages',
-        'Prospecção Ativa',
-        'Indicações / Base de clientes'
+        'Uso um formulário de qualificação para filtrar interessados antes da conversa.',
+        'Os leads chegam sem filtro e perco tempo atendendo curiosos desqualificados.',
+        'Faço a qualificação manualmente durante a conversa de vendas.',
+        'Filtro os leads previamente por orçamento ou faturamento.'
       ]
     },
     {
-      id: 'objetivo_curto_prazo',
+      id: 'automacao_crm',
       step: 3,
-      title: 'Qual o seu principal objetivo a curto prazo?',
-      subtitle: 'Sua prioridade máxima para os próximos meses.',
+      title: 'O que acontece com os dados dos leads assim que eles entram em contato?',
+      subtitle: 'Selecione como os contatos são organizados no seu negócio.',
       type: 'single',
-      toast: 'Analisando suas respostas...',
+      toast: 'Perfeito. Automação e CRM garantem rapidez no acompanhamento.',
       options: [
-        'Atrair um volume maior de leads.',
-        'Melhorar a qualificação (parar de atender curiosos).',
-        'Estruturar meu funil e aumentar conversão de propostas.',
-        'Criar uma máquina de vendas previsível.'
+        'Vão automaticamente para um CRM ou Planilha de vendas.',
+        'Recebo apenas como mensagens soltas no WhatsApp sem centralização.',
+        'Anoto e organizo o acompanhamento dos leads de forma manual.',
+        'Tenho um CRM de vendas, mas os dados não chegam integrados automaticamente.'
+      ]
+    },
+    {
+      id: 'faixa_faturamento',
+      step: 4,
+      title: 'Qual a faixa de faturamento mensal atual do seu negócio?',
+      subtitle: 'Identifica o momento e a maturidade da sua operação comercial.',
+      type: 'single',
+      toast: 'Analisando o diagnóstico completo...',
+      options: [
+        'Até R$ 10 mil / mês',
+        'R$ 10 mil a R$ 30 mil / mês',
+        'R$ 30 mil a R$ 100 mil / mês',
+        'Acima de R$ 100 mil / mês'
       ]
     }
   ];
 
   const RESULT_CATEGORIES = {
+    pagina: {
+      tag: 'Gargalo: Página de Vendas',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
+      title: 'Seu principal gargalo está na conversão da sua <span class="highlight-orange">Página de Vendas</span>.',
+      text: 'Sem uma Landing Page de alta conversão para apresentar o valor da sua oferta antes do atendimento, grande parte do tráfego abandona o contato ou chega sem entender o real potencial do seu produto.'
+    },
     qualificacao: {
-      tag: 'Gargalo: Qualificação',
-      title: 'Seu principal indício de gargalo está na qualificação.',
-      text: 'Você pode estar atraindo interessados, mas sem filtros para identificar quem tem perfil e momento de compra. O próximo passo é revisar a qualificação no pré-atendimento antes da conversa comercial.'
+      tag: 'Gargalo: Qualificação de Leads',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
+      title: 'Seu principal gargalo está no pré-atendimento e <span class="highlight-orange">Qualificação de Leads</span>.',
+      text: 'Você atrai interessados, mas sem formulários ou perguntas estratégicas no pré-atendimento, você ou sua equipe perdem horas preciosas atendendo curiosos sem perfil de compra.'
     },
-    processo: {
-      tag: 'Gargalo: Estrutura do Processo',
-      title: 'Seu principal indício de gargalo está na estrutura do processo.',
-      text: 'Quando as etapas comerciais não estão padronizadas, as oportunidades se perdem pelo caminho. O primeiro passo é desenhar e organizar o fluxo da atração ao fechamento.'
+    automacao: {
+      tag: 'Gargalo: Automação & CRM',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+      title: 'Seu principal gargalo está na falta de <span class="highlight-orange">Automação & CRM</span>.',
+      text: 'Trabalhar com mensagens soltas no WhatsApp sem integração automática para CRM ou Planilha gera atraso no primeiro contato, falhas no acompanhamento e perda de oportunidades.'
     },
-    followup: {
-      tag: 'Gargalo: Acompanhamento & Previsibilidade',
-      title: 'Seu principal indício de gargalo está na previsibilidade do funil.',
-      text: 'Depender apenas de indicações ou networking limita o crescimento. Seu processo precisa de canais ativos e previsíveis para gerar novas reuniões constantemente.'
-    },
-    captacao: {
-      tag: 'Gargalo: Atração de Leads',
-      title: 'Seu principal indício de gargalo está na captação.',
-      text: 'Antes de acelerar suas vendas, revise se sua mensagem nos pontos de contato atrai o público-alvo correto. Mais volume sem posicionamento claro atrai os leads errados.'
+    escala: {
+      tag: 'Oportunidade: Escala do Funil',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+      title: 'Sua estrutura tem boa base! O foco agora é <span class="highlight-orange">Otimização & Escala</span>.',
+      text: 'Sua operação já possui Página de Vendas e processos de qualificação. O próximo passo é refinar a conversão em tempo real e escalar o volume de clientes qualificados.'
     }
   };
 
@@ -88,9 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
     currentScreen: 'hero',
     currentStepIndex: 0,
     answers: {
-      momento_comercial: '',
-      origem_clientes: '',
-      objetivo_curto_prazo: ''
+      estrutura_pagina: '',
+      qualificacao_lead: '',
+      automacao_crm: '',
+      faixa_faturamento: ''
     },
     calculatedResultCategory: null,
     checklistRequested: false
@@ -378,38 +397,53 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function calculateDiagnosticCategory(ans) {
-    const momento = ans.momento_comercial || '';
-    const objetivo = ans.objetivo_curto_prazo || '';
+    const estr = ans.estrutura_pagina || '';
+    const qual = ans.qualificacao_lead || '';
+    const auto = ans.automacao_crm || '';
 
-    if (momento.includes('desqualificada') || objetivo.includes('qualificação')) {
+    if (estr.includes('sem página') || estr.includes('Linktree') || estr.includes('converte pouco')) {
+      return 'pagina';
+    }
+    if (qual.includes('sem filtro') || qual.includes('manualmente')) {
       return 'qualificacao';
     }
-    if (momento.includes('taxa de fechamento') || objetivo.includes('funil') || objetivo.includes('conversão')) {
-      return 'processo';
-    }
-    if (momento.includes('indicações') || objetivo.includes('previsível')) {
-      return 'followup';
-    }
-    if (objetivo.includes('volume maior')) {
-      return 'captacao';
+    if (auto.includes('mensagem solta') || auto.includes('manual') || auto.includes('não chegam integrados')) {
+      return 'automacao';
     }
 
-    return 'processo';
+    return 'escala';
+  }
+
+  function calculateLeadTier(ans) {
+    const fat = ans.faixa_faturamento || '';
+    if (fat.includes('Acima de R$ 100 mil') || fat.includes('R$ 30 mil a R$ 100 mil')) {
+      return { tier: 'HOT_LEAD_ICP', label: 'Alta Prioridade (ICP Quente)' };
+    }
+    if (fat.includes('R$ 10 mil a R$ 30 mil')) {
+      return { tier: 'WARM_LEAD_ICP', label: 'Média Prioridade (Lead em Crescimento)' };
+    }
+    return { tier: 'COLD_LEAD_ICP', label: 'Lead Inicial' };
   }
 
   function displayResult() {
-    const catKey = state.calculatedResultCategory || 'processo';
-    const catData = RESULT_CATEGORIES[catKey] || RESULT_CATEGORIES.processo;
+    const catKey = state.calculatedResultCategory || 'pagina';
+    const catData = RESULT_CATEGORIES[catKey] || RESULT_CATEGORIES.pagina;
 
-    resultTag.textContent = catData.tag;
-    resultTitle.textContent = catData.title;
-    resultText.textContent = catData.text;
+    const resultIconEl = document.getElementById('resultIcon');
+    if (resultIconEl && catData.icon) {
+      resultIconEl.innerHTML = catData.icon;
+    }
+
+    if (resultTag) resultTag.textContent = catData.tag;
+    if (resultTitle) resultTitle.innerHTML = catData.title;
+    if (resultText) resultText.textContent = catData.text;
 
     summaryTags.innerHTML = '';
     const tagsToRender = [
-      state.answers.momento_comercial,
-      state.answers.origem_clientes,
-      state.answers.objetivo_curto_prazo
+      state.answers.estrutura_pagina,
+      state.answers.qualificacao_lead,
+      state.answers.automacao_crm,
+      state.answers.faixa_faturamento
     ].filter(Boolean);
 
     tagsToRender.forEach(tag => {
@@ -484,23 +518,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const greeting = rawName ? `Fala ${rawName}, tudo bem?` : 'Fala, tudo bem?';
 
-    const catKey = state.calculatedResultCategory || 'processo';
-    const catData = RESULT_CATEGORIES[catKey] || RESULT_CATEGORIES.processo;
+    const catKey = state.calculatedResultCategory || 'pagina';
+    const catData = RESULT_CATEGORIES[catKey] || RESULT_CATEGORIES.pagina;
 
-    const momento = state.answers.momento_comercial || 'Não informado';
-    const origem = state.answers.origem_clientes || 'Não informado';
-    const objetivo = state.answers.objetivo_curto_prazo || 'Não informado';
+    const estr = state.answers.estrutura_pagina || 'Não informado';
+    const qual = state.answers.qualificacao_lead || 'Não informado';
+    const auto = state.answers.automacao_crm || 'Não informado';
+    const fat = state.answers.faixa_faturamento || 'Não informado';
 
     const catName = catData.tag.replace('Gargalo: ', '').toLowerCase();
     const catDesc = catData.text;
 
     const rawText = `${greeting} Aqui é o Guilherme da Tekton Digital.\n\n` +
-      `Vi que você acabou de preencher o diagnóstico comercial. Dei uma olhada no seu cenário:\n\n` +
-      `• Momento atual: ${momento}\n` +
-      `• Origem dos clientes: ${origem}\n` +
-      `• Principal objetivo: ${objetivo}\n\n` +
-      `Pelo que você marcou, o seu principal ponto de gargalo hoje está na ${catName}. ${catDesc}\n\n` +
-      `Já separei o checklist prático com os pontos para você ajustar no seu processo comercial. Me avisa se este é um bom momento para conversarmos por aqui.`;
+      `Vi que você preencheu o diagnóstico comercial. Dei uma olhada no seu cenário:\n\n` +
+      `• Apresentação da oferta: ${estr}\n` +
+      `• Qualificação de contatos: ${qual}\n` +
+      `• Organização de dados: ${auto}\n` +
+      `• Faturamento / Ticket: ${fat}\n\n` +
+      `Pelo seu diagnóstico, o ponto prioritário para ajustar é ${catName}.\n${catDesc}\n\n` +
+      `Separei um material prático para otimizar esse fluxo e aumentar a conversão do seu comercial. Me avisa se podemos conversarmos por aqui!`;
 
     return rawText
       .replace(/\r?\n/g, '\\n')
@@ -508,8 +544,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function sendWebhookPayload(extraData = {}) {
-    const catKey = state.calculatedResultCategory || 'processo';
-    const catData = RESULT_CATEGORIES[catKey];
+    const catKey = state.calculatedResultCategory || 'pagina';
+    const catData = RESULT_CATEGORIES[catKey] || RESULT_CATEGORIES.pagina;
+    const tierData = calculateLeadTier(state.answers);
 
     const rawName = (extraData && extraData.contato && extraData.contato.nome && extraData.contato.nome !== 'Não informado')
       ? extraData.contato.nome
@@ -533,11 +570,20 @@ document.addEventListener('DOMContentLoaded', () => {
       nome: rawName || 'Não informado',
       whatsapp: rawVal || null,
       whatsapp_raw: digitsOnly || null,
-      momento_comercial: state.answers.momento_comercial || '',
-      origem_clientes: state.answers.origem_clientes || '',
-      objetivo_curto_prazo: state.answers.objetivo_curto_prazo || '',
-      categoria_resultado: catKey,
-      titulo_resultado: catData ? catData.title : '',
+      
+      // Respostas do Diagnóstico
+      estrutura_pagina: state.answers.estrutura_pagina || '',
+      qualificacao_lead: state.answers.qualificacao_lead || '',
+      automacao_crm: state.answers.automacao_crm || '',
+      faixa_faturamento: state.answers.faixa_faturamento || '',
+      
+      // Inteligência de Vendas / Qualificação de Lead
+      categoria_gargalo: catKey,
+      gargalo_titulo: catData ? catData.tag : '',
+      lead_tier: tierData.tier,
+      lead_tier_label: tierData.label,
+      
+      // Mensagens de Automação (Make/n8n/WhatsApp)
       mensagem_personalizada: personalizedMessage,
       mensagem_whatsapp: personalizedMessage
     };
