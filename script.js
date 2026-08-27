@@ -1,6 +1,6 @@
 /**
  * DIAGNÓSTICO COMERCIAL INTERATIVO - GUILHERME (@tekton.guilherme)
- * Engine de perguntas compacta, persistência de sessão e Webhook.
+ * Tekton Digital • Estruturação Comercial, Pré-Venda & Automação
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,96 +9,161 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. CONFIGURAÇÕES E ESTADO GLOBAL
   // =========================================================================
   const CONFIG = {
-    WEBHOOK_URL: localStorage.getItem('guilherme_webhook_url') || 'https://hook.us2.make.com/fa4i37r16p3mjadowmycsyyku1qtyb4b',
-    INSTAGRAM_HANDLE: localStorage.getItem('guilherme_insta_handle') || '@tekton.guilherme',
-    WHATSAPP_NUMBER: localStorage.getItem('guilherme_whatsapp_number') || '',
-    AUTO_ADVANCE_DELAY_MS: 300,
-    LOADING_ANIMATION_MS: 800
+    WEBHOOK_URL: 'https://hook.us2.make.com/fa4i37r16p3mjadowmycsyyku1qtyb4b',
+    INSTAGRAM_HANDLE: '@tekton.guilherme',
+    WHATSAPP_NUMBER: '5511995507196',
+    AUTO_ADVANCE_DELAY_MS: 320,
+    LOADING_ANIMATION_MS: 850
   };
 
+  // Matriz de perguntas com identificadores internos estáveis (IDs) e categorias
   const QUESTIONS = [
     {
       id: 'estrutura_pagina',
       step: 1,
-      title: 'Como você apresenta e vende seu produto ou serviço hoje?',
-      subtitle: 'Selecione onde seu potencial cliente chega primeiro.',
+      title: 'Como sua empresa apresenta e vende sua oferta hoje?',
+      subtitle: 'Identifique o primeiro ponto de contato com o potencial cliente.',
       type: 'single',
-      toast: 'Boa. A estrutura da página é o primeiro filtro comercial.',
+      toast: 'A forma como a oferta é apresentada influencia a qualidade e a intenção dos contatos.',
       options: [
-        'Tenho uma Página de Vendas (Landing Page) dedicada.',
-        'Atendo direto no WhatsApp ou mensagem privada sem ter uma página.',
-        'Tenho uma Página de Vendas, mas ela tem baixa conversão.',
-        'Tenho apenas um site institucional genérico ou link na bio.'
+        {
+          id: 'pagina_dedicada',
+          label: 'Tenho uma página de vendas dedicada.',
+          category: 'escala'
+        },
+        {
+          id: 'sem_pagina',
+          label: 'Atendo diretamente pelo WhatsApp ou direct, sem uma página estruturada.',
+          category: 'pagina'
+        },
+        {
+          id: 'baixa_conversao',
+          label: 'Tenho uma página de vendas, mas ela converte pouco.',
+          category: 'pagina'
+        },
+        {
+          id: 'site_generico',
+          label: 'Tenho apenas um site institucional ou um link genérico na bio.',
+          category: 'pagina'
+        }
       ]
     },
     {
       id: 'qualificacao_lead',
       step: 2,
-      title: 'Como funciona a qualificação dos leads antes do atendimento?',
-      subtitle: 'Selecione como seu comercial filtra os contatos.',
+      title: 'Como sua empresa qualifica os leads antes do atendimento?',
+      subtitle: 'Entenda quanto tempo sua equipe perde com contatos sem perfil.',
       type: 'single',
-      toast: 'Excelente. A qualificação no pré-atendimento evita curiosos.',
+      toast: 'Uma boa pré-venda reduz desperdício e prepara melhor a conversa comercial.',
       options: [
-        'Uso um formulário de qualificação para filtrar interessados antes da conversa.',
-        'Os leads chegam sem filtro e perco tempo atendendo curiosos desqualificados.',
-        'Faço a qualificação manualmente durante a conversa de vendas.',
-        'Filtro os leads previamente por orçamento ou faturamento.'
+        {
+          id: 'com_filtro',
+          label: 'Uso um formulário ou perguntas estratégicas antes da conversa.',
+          category: 'escala'
+        },
+        {
+          id: 'sem_filtro',
+          label: 'Os leads chegam sem filtro e minha equipe atende muitos contatos sem perfil.',
+          category: 'qualificacao'
+        },
+        {
+          id: 'qualificacao_manual',
+          label: 'Faço a qualificação manualmente durante a conversa de vendas.',
+          category: 'qualificacao'
+        },
+        {
+          id: 'filtro_previo',
+          label: 'Filtro os leads previamente por orçamento, faturamento ou perfil.',
+          category: 'escala'
+        }
       ]
     },
     {
       id: 'automacao_crm',
       step: 3,
-      title: 'O que acontece com os dados dos leads assim que eles entram em contato?',
-      subtitle: 'Selecione como os contatos são organizados no seu negócio.',
+      title: 'O que acontece com os dados do lead depois que ele entra em contato?',
+      subtitle: 'Veja se sua equipe consegue acompanhar cada oportunidade sem depender de mensagens soltas.',
       type: 'single',
-      toast: 'Perfeito. Automação e CRM garantem rapidez no acompanhamento.',
+      toast: 'Sem organização e acompanhamento, oportunidades podem desaparecer mesmo quando o lead é bom.',
       options: [
-        'Vão automaticamente para um CRM ou Planilha de vendas.',
-        'Recebo apenas como mensagens soltas no WhatsApp sem centralização.',
-        'Anoto e organizo o acompanhamento dos leads de forma manual.',
-        'Tenho um CRM de vendas, mas os dados não chegam integrados automaticamente.'
+        {
+          id: 'crm_integrado',
+          label: 'Os dados vão automaticamente para um CRM ou planilha organizada.',
+          category: 'escala'
+        },
+        {
+          id: 'mensagens_soltas',
+          label: 'Recebo apenas mensagens soltas no WhatsApp, sem centralização.',
+          category: 'automacao'
+        },
+        {
+          id: 'acompanhamento_manual',
+          label: 'Anoto e acompanho os leads manualmente.',
+          category: 'automacao'
+        },
+        {
+          id: 'crm_sem_integracao',
+          label: 'Tenho um CRM, mas os dados não chegam integrados automaticamente.',
+          category: 'automacao'
+        }
       ]
     },
     {
       id: 'faixa_faturamento',
       step: 4,
-      title: 'Qual a faixa de faturamento mensal atual do seu negócio?',
-      subtitle: 'Identifica o momento e a maturidade da sua operação comercial.',
+      title: 'Qual é a faixa de faturamento mensal atual da sua empresa?',
+      subtitle: 'Essa informação ajuda a contextualizar o momento e a prioridade da sua operação comercial.',
       type: 'single',
-      toast: 'Analisando o diagnóstico completo...',
+      toast: 'Estamos cruzando suas respostas para indicar o próximo ponto prioritário.',
       options: [
-        'Até R$ 10 mil / mês',
-        'R$ 10 mil a R$ 30 mil / mês',
-        'R$ 30 mil a R$ 100 mil / mês',
-        'Acima de R$ 100 mil / mês'
+        {
+          id: 'ate_10k',
+          label: 'Até R$ 10 mil por mês',
+          tier: 'COLD_LEAD_ICP'
+        },
+        {
+          id: '10k_30k',
+          label: 'De R$ 10 mil a R$ 30 mil por mês',
+          tier: 'WARM_LEAD_ICP'
+        },
+        {
+          id: '30k_100k',
+          label: 'De R$ 30 mil a R$ 100 mil por mês',
+          tier: 'HOT_LEAD_ICP'
+        },
+        {
+          id: 'acima_100k',
+          label: 'Acima de R$ 100 mil por mês',
+          tier: 'HOT_LEAD_ICP'
+        }
       ]
     }
   ];
 
   const RESULT_CATEGORIES = {
     pagina: {
-      tag: 'Gargalo: Página de Vendas',
+      tag: 'GARGALO: CONVERSÃO DA OFERTA',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
-      title: 'Seu principal gargalo está na conversão da sua <span class="highlight-orange">Página de Vendas</span>.',
-      text: 'Sem uma Landing Page de alta conversão para apresentar o valor da sua oferta antes do atendimento, grande parte do tráfego abandona o contato ou chega sem entender o real potencial do seu produto.'
+      title: 'Seu principal gargalo parece estar na forma como sua oferta é apresentada.',
+      text: 'Quando a página não deixa claro o valor da oferta, o público ideal pode abandonar o contato ou chegar sem entender se a solução é adequada para ele.'
     },
     qualificacao: {
-      tag: 'Gargalo: Qualificação de Leads',
+      tag: 'GARGALO: PRÉ-VENDA E QUALIFICAÇÃO',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
-      title: 'Seu principal gargalo está no pré-atendimento e <span class="highlight-orange">Qualificação de Leads</span>.',
-      text: 'Você atrai interessados, mas sem formulários ou perguntas estratégicas no pré-atendimento, você ou sua equipe perdem horas preciosas atendendo curiosos sem perfil de compra.'
+      title: 'Seu principal gargalo parece estar na qualificação dos leads.',
+      text: 'Sem perguntas estratégicas antes do atendimento, sua equipe pode perder horas com contatos sem perfil e deixar menos tempo para as oportunidades reais.'
     },
     automacao: {
-      tag: 'Gargalo: Automação & CRM',
+      tag: 'GARGALO: ACOMPANHAMENTO COMERCIAL',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
-      title: 'Seu principal gargalo está na falta de <span class="highlight-orange">Automação & CRM</span>.',
-      text: 'Trabalhar com mensagens soltas no WhatsApp sem integração automática para CRM ou Planilha gera atraso no primeiro contato, falhas no acompanhamento e perda de oportunidades.'
+      title: 'Seu principal gargalo parece estar na organização e no acompanhamento dos leads.',
+      text: 'Quando os contatos ficam espalhados em mensagens ou controles manuais, aumentam os atrasos, esquecimentos e oportunidades sem follow-up.'
     },
     escala: {
-      tag: 'Oportunidade: Escala do Funil',
+      tag: 'OPORTUNIDADE: OTIMIZAÇÃO E ESCALA',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
-      title: 'Sua estrutura tem boa base! O foco agora é <span class="highlight-orange">Otimização & Escala</span>.',
-      text: 'Sua operação já possui Página de Vendas e processos de qualificação. O próximo passo é refinar a conversão em tempo real e escalar o volume de clientes qualificados.'
+      title: 'Sua operação parece ter uma boa base para otimizar e escalar.',
+      text: 'Com página, qualificação e acompanhamento estruturados, o próximo passo é melhorar a conversão e aumentar o volume de oportunidades qualificadas sem perder controle do processo.'
     }
   };
 
@@ -107,6 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
     currentScreen: 'hero',
     currentStepIndex: 0,
     answers: {
+      estrutura_pagina: '',
+      qualificacao_lead: '',
+      automacao_crm: '',
+      faixa_faturamento: ''
+    },
+    selectedOptionIds: {
       estrutura_pagina: '',
       qualificacao_lead: '',
       automacao_crm: '',
@@ -121,7 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
     hero: document.getElementById('screenHero'),
     question: document.getElementById('screenQuestion'),
     loading: document.getElementById('screenLoading'),
-    result: document.getElementById('screenResult')
+    result: document.getElementById('screenResult'),
+    thankYou: document.getElementById('screenThankYou')
   };
 
   const btnStartDiagnostic = document.getElementById('btnStartDiagnostic');
@@ -145,12 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contactForm');
   const offerInitialButtons = document.getElementById('offerInitialButtons');
   const declineArea = document.getElementById('declineArea');
-  const successCard = document.getElementById('successCard');
+  const btnRestartDiagnostic = document.getElementById('btnRestartDiagnostic');
 
-  const contactChannelRadios = document.querySelectorAll('input[name="contactChannel"]');
-  const contactValueLabel = document.getElementById('contactValueLabel');
   const contactValueInput = document.getElementById('contactValueInput');
-  const contactValueError = document.getElementById('contactValueError');
   const contactNameInput = document.getElementById('contactNameInput');
   const btnSubmitContact = document.getElementById('btnSubmitContact');
 
@@ -167,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const webhookUrlInput = document.getElementById('webhookUrlInput');
   const instagramHandleInput = document.getElementById('instagramHandleInput');
   const whatsappNumberInput = document.getElementById('whatsappNumberInput');
+  const privacyPolicyLink = document.getElementById('privacyPolicyLink');
 
   function init() {
     updateInstagramLinks(CONFIG.INSTAGRAM_HANDLE);
@@ -180,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentScreen: state.currentScreen,
         currentStepIndex: state.currentStepIndex,
         answers: state.answers,
+        selectedOptionIds: state.selectedOptionIds,
         calculatedResultCategory: state.calculatedResultCategory
       }));
     } catch (e) {
@@ -201,6 +272,10 @@ document.addEventListener('DOMContentLoaded', () => {
           } else if (state.currentScreen === 'result') {
             displayResult();
             switchScreen('result');
+            return;
+          } else if (state.currentScreen === 'thankYou') {
+            updateWhatsAppRedirectUrl(state.answers.nome);
+            switchScreen('thankYou');
             return;
           }
         }
@@ -225,19 +300,23 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateWhatsAppRedirectUrl(leadName) {
     if (!btnWhatsAppSuccess) return;
 
-    let rawNumber = (CONFIG.WHATSAPP_NUMBER || '').replace(/\D/g, '');
-    if (rawNumber.length >= 10 && !rawNumber.startsWith('55')) {
-      rawNumber = '55' + rawNumber;
+    // IMPORTANTE: O botão final deve redirecionar o lead para o WhatsApp do GUILHERME (destinatário)
+    // O WhatsApp preenchido pelo lead no formulário é enviado para o Make/Webhook para contato futuro.
+    let guilhermeNumber = (CONFIG.WHATSAPP_NUMBER || '').replace(/\D/g, '');
+    
+    if (guilhermeNumber.length >= 10 && !guilhermeNumber.startsWith('55')) {
+      guilhermeNumber = '55' + guilhermeNumber;
     }
 
     const nameStr = (leadName && leadName !== 'Não informado') ? `Sou ${leadName}. ` : '';
-    const message = `Fala Guilherme! ${nameStr}Acabei de preencher o diagnóstico comercial e gostaria de conversar!`;
+    const message = `Fala Guilherme! ${nameStr}Acabei de preencher o diagnóstico comercial e gostaria de receber minha análise completa!`;
     const encoded = encodeURIComponent(message);
 
-    if (rawNumber) {
-      btnWhatsAppSuccess.href = `https://wa.me/${rawNumber}?text=${encoded}`;
+    // Se o número do Guilherme estiver configurado, redireciona diretamente para ele
+    if (guilhermeNumber) {
+      btnWhatsAppSuccess.href = `https://api.whatsapp.com/send?phone=${guilhermeNumber}&text=${encoded}`;
     } else {
-      btnWhatsAppSuccess.href = `https://wa.me/?text=${encoded}`;
+      btnWhatsAppSuccess.href = `https://api.whatsapp.com/send?text=${encoded}`;
     }
   }
 
@@ -274,67 +353,31 @@ document.addEventListener('DOMContentLoaded', () => {
     questionSubtitle.textContent = currentQ.subtitle || '';
 
     optionsGrid.innerHTML = '';
+    questionFooterAction.style.display = 'none';
 
-    if (currentQ.type === 'single') {
-      questionFooterAction.style.display = 'none';
+    currentQ.options.forEach(opt => {
+      const isSelected = state.selectedOptionIds[currentQ.id] === opt.id || state.answers[currentQ.id] === opt.label;
+      const card = document.createElement('div');
+      card.className = `option-card ${isSelected ? 'selected' : ''}`;
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
 
-      currentQ.options.forEach(optText => {
-        const isSelected = state.answers[currentQ.id] === optText;
-        const card = document.createElement('div');
-        card.className = `option-card ${isSelected ? 'selected' : ''}`;
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('role', 'button');
-        card.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+      card.innerHTML = `
+        <span class="option-card-label">${opt.label}</span>
+        <span class="option-radio-indicator"></span>
+      `;
 
-        card.innerHTML = `
-          <span class="option-card-label">${optText}</span>
-          <span class="option-radio-indicator"></span>
-        `;
-
-        card.addEventListener('click', () => handleSingleSelect(currentQ.id, optText, card));
-        card.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleSingleSelect(currentQ.id, optText, card);
-          }
-        });
-
-        optionsGrid.appendChild(card);
+      card.addEventListener('click', () => handleOptionSelect(currentQ.id, opt, card));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleOptionSelect(currentQ.id, opt, card);
+        }
       });
 
-    } else if (currentQ.type === 'multi') {
-      questionFooterAction.style.display = 'block';
-
-      const currentSelectedList = state.answers[currentQ.id] || [];
-
-      currentQ.options.forEach(optText => {
-        const isSelected = currentSelectedList.includes(optText);
-        const card = document.createElement('div');
-        card.className = `option-card ${isSelected ? 'selected' : ''}`;
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('role', 'checkbox');
-        card.setAttribute('aria-checked', isSelected ? 'true' : 'false');
-
-        card.innerHTML = `
-          <span class="option-card-label">${optText}</span>
-          <span class="option-checkbox-indicator">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-        `;
-
-        card.addEventListener('click', () => handleMultiSelectToggle(currentQ.id, optText, card));
-        card.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleMultiSelectToggle(currentQ.id, optText, card);
-          }
-        });
-
-        optionsGrid.appendChild(card);
-      });
-
-      updateContinueButtonState();
-    }
+      optionsGrid.appendChild(card);
+    });
 
     saveSession();
   }
@@ -348,12 +391,13 @@ document.addEventListener('DOMContentLoaded', () => {
     microToast.classList.add('visible');
   }
 
-  function handleSingleSelect(questionId, selectedValue, cardElement) {
+  function handleOptionSelect(questionId, optionObj, cardElement) {
     const siblings = optionsGrid.querySelectorAll('.option-card');
     siblings.forEach(el => el.classList.remove('selected'));
     cardElement.classList.add('selected');
 
-    state.answers[questionId] = selectedValue;
+    state.answers[questionId] = optionObj.label;
+    state.selectedOptionIds[questionId] = optionObj.id;
     saveSession();
 
     setTimeout(() => {
@@ -365,88 +409,90 @@ document.addEventListener('DOMContentLoaded', () => {
     }, CONFIG.AUTO_ADVANCE_DELAY_MS);
   }
 
-  function handleMultiSelectToggle(questionId, selectedValue, cardElement) {
-    let list = state.answers[questionId] ? [...state.answers[questionId]] : [];
-    const isNoneOption = selectedValue === 'Ainda não tenho uma fonte previsível';
-
-    if (isNoneOption) {
-      list = list.includes(selectedValue) ? [] : [selectedValue];
-    } else {
-      list = list.filter(item => item !== 'Ainda não tenho uma fonte previsível');
-      if (list.includes(selectedValue)) {
-        list = list.filter(item => item !== selectedValue);
-      } else {
-        list.push(selectedValue);
-      }
-    }
-
-    state.answers[questionId] = list;
-
-    const siblings = optionsGrid.querySelectorAll('.option-card');
-    siblings.forEach(el => {
-      const label = el.querySelector('.option-card-label').textContent;
-      if (list.includes(label)) {
-        el.classList.add('selected');
-        el.setAttribute('aria-checked', 'true');
-      } else {
-        el.classList.remove('selected');
-        el.setAttribute('aria-checked', 'false');
-      }
-    });
-
-    updateContinueButtonState();
-    saveSession();
-  }
-
-  function updateContinueButtonState() {
-    const list = state.answers.origem_leads || [];
-    btnStepContinue.disabled = list.length === 0;
-  }
-
   function processAndShowResult() {
     switchScreen('loading');
 
-    state.calculatedResultCategory = calculateDiagnosticCategory(state.answers);
+    state.calculatedResultCategory = calculateDiagnosticCategory();
     saveSession();
 
     setTimeout(() => {
       displayResult();
       switchScreen('result');
-      // Nota: O Webhook é disparado exclusivamente ao submeter o formulário de contato ou recusar o checklist.
     }, CONFIG.LOADING_ANIMATION_MS);
   }
 
-  function calculateDiagnosticCategory(ans) {
-    const estr = ans.estrutura_pagina || '';
-    const qual = ans.qualificacao_lead || '';
-    const auto = ans.automacao_crm || '';
+  /**
+   * Classificação do Diagnóstico com base nos IDs internos estáveis.
+   * Regras:
+   * 1. Problema de Página ('sem_pagina', 'baixa_conversao', 'site_generico') -> 'pagina'
+   * 2. Problema de Qualificação ('sem_filtro', 'qualificacao_manual') -> 'qualificacao'
+   * 3. Problema de Automação/CRM ('mensagens_soltas', 'acompanhamento_manual', 'crm_sem_integracao') -> 'automacao'
+   * 4. Estrutura completa pronta ('pagina_dedicada' + 'com_filtro'/'filtro_previo' + 'crm_integrado') -> 'escala'
+   */
+  function calculateDiagnosticCategory() {
+    const paginaId = state.selectedOptionIds.estrutura_pagina;
+    const qualifId = state.selectedOptionIds.qualificacao_lead;
+    const autoId = state.selectedOptionIds.automacao_crm;
 
-    if (estr.includes('sem página') || estr.includes('Linktree') || estr.includes('converte pouco')) {
+    // 1. Gargalo de Oferta/Página
+    if (['sem_pagina', 'baixa_conversao', 'site_generico'].includes(paginaId)) {
       return 'pagina';
     }
-    if (qual.includes('sem filtro') || qual.includes('manualmente')) {
+
+    // 2. Gargalo de Pré-venda e Qualificação
+    if (['sem_filtro', 'qualificacao_manual'].includes(qualifId)) {
       return 'qualificacao';
     }
-    if (auto.includes('mensagem solta') || auto.includes('manual') || auto.includes('não chegam integrados')) {
+
+    // 3. Gargalo de Acompanhamento Comercial & Automação
+    if (['mensagens_soltas', 'acompanhamento_manual', 'crm_sem_integracao'].includes(autoId)) {
       return 'automacao';
     }
 
+    // 4. Oportunidade de Otimização e Escala
     return 'escala';
   }
 
-  function calculateLeadTier(ans) {
-    const fat = ans.faixa_faturamento || '';
-    if (fat.includes('Acima de R$ 100 mil') || fat.includes('R$ 30 mil a R$ 100 mil')) {
+  function calculateLeadTier() {
+    const fatId = state.selectedOptionIds.faixa_faturamento;
+    const fatLabel = state.answers.faixa_faturamento || '';
+
+    if (fatId === 'acima_100k' || fatId === '30k_100k' || fatLabel.includes('Acima de R$ 100 mil') || fatLabel.includes('R$ 30 mil a R$ 100 mil')) {
       return { tier: 'HOT_LEAD_ICP', label: 'Alta Prioridade (ICP Quente)' };
     }
-    if (fat.includes('R$ 10 mil a R$ 30 mil')) {
+    if (fatId === '10k_30k' || fatLabel.includes('R$ 10 mil a R$ 30 mil')) {
       return { tier: 'WARM_LEAD_ICP', label: 'Média Prioridade (Lead em Crescimento)' };
     }
     return { tier: 'COLD_LEAD_ICP', label: 'Lead Inicial' };
   }
 
+  /**
+   * Pontuação do Processo Comercial estilo PageSpeed (0 a 100)
+   */
+  function calculateDiagnosticScore() {
+    const paginaId = state.selectedOptionIds.estrutura_pagina;
+    const qualifId = state.selectedOptionIds.qualificacao_lead;
+    const autoId = state.selectedOptionIds.automacao_crm;
+
+    const scoresMap = {
+      // Oferta (máx 30)
+      pagina_dedicada: 30, baixa_conversao: 15, site_generico: 10, sem_pagina: 5,
+      // Qualificação (máx 35)
+      filtro_previo: 35, com_filtro: 30, qualificacao_manual: 15, sem_filtro: 5,
+      // Automação & CRM (máx 35)
+      crm_integrado: 35, crm_sem_integracao: 20, acompanhamento_manual: 10, mensagens_soltas: 5
+    };
+
+    const sP = scoresMap[paginaId] || 10;
+    const sQ = scoresMap[qualifId] || 10;
+    const sA = scoresMap[autoId] || 10;
+
+    return Math.min(100, Math.max(15, sP + sQ + sA));
+  }
+
   function displayResult() {
-    const catKey = state.calculatedResultCategory || 'pagina';
+    const catKey = state.calculatedResultCategory || calculateDiagnosticCategory();
+    state.calculatedResultCategory = catKey;
     const catData = RESULT_CATEGORIES[catKey] || RESULT_CATEGORIES.pagina;
 
     const resultIconEl = document.getElementById('resultIcon');
@@ -455,32 +501,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (resultTag) resultTag.textContent = catData.tag;
-    if (resultTitle) resultTitle.innerHTML = catData.title;
+    if (resultTitle) resultTitle.textContent = catData.title;
     if (resultText) resultText.textContent = catData.text;
 
-    summaryTags.innerHTML = '';
-    const tagsToRender = [
-      state.answers.estrutura_pagina,
-      state.answers.qualificacao_lead,
-      state.answers.automacao_crm,
-      state.answers.faixa_faturamento
-    ].filter(Boolean);
+    // Renderizar o Medidor de Pontuação Comercial Estilo PageSpeed
+    const score = calculateDiagnosticScore();
+    const scoreValEl = document.getElementById('scoreValue');
+    const scoreRingEl = document.getElementById('scoreRingProgress');
+    const scoreBadgeEl = document.getElementById('scoreStatusBadge');
+    const scoreSubtitleEl = document.getElementById('scoreSubtitle');
 
-    tagsToRender.forEach(tag => {
-      const span = document.createElement('span');
-      span.className = 'summary-tag';
-      span.textContent = tag;
-      summaryTags.appendChild(span);
-    });
-  }
+    if (scoreValEl && scoreRingEl) {
+      const circumference = 314.16; // 2 * PI * 50
+      scoreRingEl.style.strokeDasharray = `${circumference}`;
+      
+      let currentVal = 0;
+      const duration = 1100;
+      const startTime = performance.now();
 
-  function setupContactChannelInputs() {
-    if (contactValueLabel) contactValueLabel.textContent = 'Seu WhatsApp';
-    if (contactValueInput) {
-      contactValueInput.type = 'tel';
-      contactValueInput.placeholder = '(11) 99999-9999';
+      function animateScore(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        currentVal = Math.round(easeOut * score);
+        scoreValEl.textContent = currentVal;
+
+        const offset = circumference - (easeOut * (score / 100) * circumference);
+        scoreRingEl.style.strokeDashoffset = offset;
+
+        if (progress < 1) {
+          requestAnimationFrame(animateScore);
+        }
+      }
+      requestAnimationFrame(animateScore);
+
+      scoreRingEl.classList.remove('score-ring-critical', 'score-ring-warning', 'score-ring-good');
+      if (scoreBadgeEl) {
+        scoreBadgeEl.classList.remove('badge-critical', 'badge-warning', 'badge-good');
+      }
+
+      if (score < 50) {
+        scoreRingEl.classList.add('score-ring-critical');
+        if (scoreBadgeEl) {
+          scoreBadgeEl.textContent = 'Gargalo Crítico • Alta Perda';
+          scoreBadgeEl.classList.add('badge-critical');
+        }
+        if (scoreSubtitleEl) scoreSubtitleEl.textContent = 'Seu funil possui vazamentos significativos de contatos';
+      } else if (score < 80) {
+        scoreRingEl.classList.add('score-ring-warning');
+        if (scoreBadgeEl) {
+          scoreBadgeEl.textContent = 'Maturidade Média • Oportunidade de Otimização';
+          scoreBadgeEl.classList.add('badge-warning');
+        }
+        if (scoreSubtitleEl) scoreSubtitleEl.textContent = 'Operação funcional com pontos para alavancagem';
+      } else {
+        scoreRingEl.classList.add('score-ring-good');
+        if (scoreBadgeEl) {
+          scoreBadgeEl.textContent = 'Alta Performance • Pronto para Escalar';
+          scoreBadgeEl.classList.add('badge-good');
+        }
+        if (scoreSubtitleEl) scoreSubtitleEl.textContent = 'Estrutura comercial pronta para tração e escala';
+      }
     }
-    clearFormError();
+
+    if (summaryTags) {
+      summaryTags.innerHTML = '';
+    }
   }
 
   function clearFormError() {
@@ -507,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!phoneVal) {
       showFormError(contactValueInput, 'Preenchimento obrigatório.');
       isValid = false;
-    } else if (phoneVal.replace(/\D/g, '').length < 8) {
+    } else if (phoneVal.replace(/\D/g, '').length < 10) {
       showFormError(contactValueInput, 'Insira um WhatsApp válido com DDD.');
       isValid = false;
     } else {
@@ -546,7 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const auto = state.answers.automacao_crm || 'Não informado';
     const fat = state.answers.faixa_faturamento || 'Não informado';
 
-    const catName = catData.tag.replace('Gargalo: ', '').toLowerCase();
+    const catTagClean = catData.tag.replace('GARGALO: ', '').replace('OPORTUNIDADE: ', '').toLowerCase();
     const catDesc = catData.text;
 
     return `${greeting} Aqui é o Guilherme da Tekton Digital.\n\n` +
@@ -554,15 +640,15 @@ document.addEventListener('DOMContentLoaded', () => {
       `• Estrutura da oferta: ${estr}\n` +
       `• Qualificação de contatos: ${qual}\n` +
       `• Organização de dados: ${auto}\n` +
-      `• Faturamento / Ticket: ${fat}\n\n` +
-      `Pelo seu diagnóstico, o ponto prioritário para ajustar é ${catName}.\n${catDesc}\n\n` +
-      `Separei um material prático para otimizar esse fluxo e aumentar a conversão do seu comercial. Me avisa se podemos conversar por aqui!`;
+      `• Faturamento / Momento: ${fat}\n\n` +
+      `Pelo seu diagnóstico, o ponto prioritário para ajustar é ${catTagClean}.\n${catDesc}\n\n` +
+      `Separei a análise completa com os pontos prioritários para o seu processo comercial. Me avisa se podemos conversar por aqui!`;
   }
 
   function sendWebhookPayload(extraData = {}) {
     const catKey = state.calculatedResultCategory || 'pagina';
     const catData = RESULT_CATEGORIES[catKey] || RESULT_CATEGORIES.pagina;
-    const tierData = calculateLeadTier(state.answers);
+    const tierData = calculateLeadTier();
 
     const rawName = (extraData && extraData.contato && extraData.contato.nome && extraData.contato.nome !== 'Não informado')
       ? extraData.contato.nome
@@ -580,12 +666,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const personalizedMessage = buildPersonalizedMessage(state, extraData);
 
     const payload = {
-      // 1. Metadados da requisição
+      // 1. Metadados
       timestamp: new Date().toISOString(),
       action: extraData.action || 'diagnostic_completed',
       lead_opted_in: extraData.lead_opted_in || false,
       
-      // 2. Dados de Contato do Lead (Vários aliases para mapeamento fácil no Make)
+      // 2. Contato do Lead
       nome: rawName || 'Não informado',
       name: rawName || 'Não informado',
       whatsapp: rawVal || null,
@@ -593,36 +679,36 @@ document.addEventListener('DOMContentLoaded', () => {
       phone: rawVal || null,
       whatsapp_raw: digitsOnly || null,
       
-      // 3. Respostas Atuais do Diagnóstico
+      // 3. Respostas do Diagnóstico com IDs e Textos
       estrutura_pagina: state.answers.estrutura_pagina || '',
+      estrutura_pagina_id: state.selectedOptionIds.estrutura_pagina || '',
       qualificacao_lead: state.answers.qualificacao_lead || '',
+      qualificacao_lead_id: state.selectedOptionIds.qualificacao_lead || '',
       automacao_crm: state.answers.automacao_crm || '',
+      automacao_crm_id: state.selectedOptionIds.automacao_crm || '',
       faixa_faturamento: state.answers.faixa_faturamento || '',
+      faixa_faturamento_id: state.selectedOptionIds.faixa_faturamento || '',
       
-      // 4. Aliases de Legado (caso o cenário no Make esteja usando as chaves antigas)
-      momento_comercial: state.answers.estrutura_pagina || '',
-      origem_clientes: state.answers.qualificacao_lead || '',
-      objetivo_curto_prazo: state.answers.automacao_crm || '',
-      
-      // 5. Diagnóstico & Qualificação
+      // 4. Diagnóstico & Gargalos
       categoria_resultado: catKey,
       categoria_gargalo: catKey,
       gargalo: catData ? catData.tag : '',
-      gargalo_titulo: catData ? catData.tag : '',
+      gargalo_titulo: catData ? catData.title : '',
       gargalo_descricao: catData ? catData.text : '',
+      score_comercial: calculateDiagnosticScore(),
       lead_tier: tierData.tier,
       lead_tier_label: tierData.label,
       
-      // 6. Mensagens Formatadas para WhatsApp / CRM (sem caracteres corrompidos)
+      // 5. Mensagens Formatadas para WhatsApp / CRM
       mensagem: personalizedMessage,
       mensagem_personalizada: personalizedMessage,
       mensagem_whatsapp: personalizedMessage,
       
-      // 7. Resumo das respostas em texto corrido
-      resumo_respostas: `1. Estrutura: ${state.answers.estrutura_pagina || 'N/A'} | 2. Qualificação: ${state.answers.qualificacao_lead || 'N/A'} | 3. Automação: ${state.answers.automacao_crm || 'N/A'} | 4. Faturamento: ${state.answers.faixa_faturamento || 'N/A'}`
+      // 6. Resumo formatado
+      resumo_respostas: `1. Oferta: ${state.answers.estrutura_pagina || 'N/A'} | 2. Qualificação: ${state.answers.qualificacao_lead || 'N/A'} | 3. Organização: ${state.answers.automacao_crm || 'N/A'} | 4. Faturamento: ${state.answers.faixa_faturamento || 'N/A'}`
     };
 
-    console.log('🚀 Sending Make Webhook Payload:', payload);
+    console.log('🚀 Sending Webhook Payload:', payload);
 
     const targetUrl = CONFIG.WEBHOOK_URL || 'https://hook.us2.make.com/fa4i37r16p3mjadowmycsyyku1qtyb4b';
 
@@ -631,8 +717,8 @@ document.addEventListener('DOMContentLoaded', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-    .then(res => console.log('✅ Make Webhook OK:', res.status))
-    .catch(err => console.warn('⚠️ Make Webhook Error:', err));
+    .then(res => console.log('✅ Webhook OK:', res.status))
+    .catch(err => console.warn('⚠️ Webhook Error:', err));
   }
 
   function setupEventListeners() {
@@ -663,7 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
       state.checklistRequested = true;
       offerInitialButtons.style.display = 'none';
       contactForm.style.display = 'flex';
-      setupContactChannelInputs();
+      clearFormError();
     });
 
     btnDeclineChecklist.addEventListener('click', () => {
@@ -698,56 +784,36 @@ document.addEventListener('DOMContentLoaded', () => {
       updateWhatsAppRedirectUrl(contactName);
 
       setTimeout(() => {
-        contactForm.style.display = 'none';
-        successCard.style.display = 'block';
-      }, 400);
+        switchScreen('thankYou');
+      }, 350);
     });
 
-    if (btnOpenSettings) {
-      btnOpenSettings.addEventListener('click', () => {
-        webhookUrlInput.value = CONFIG.WEBHOOK_URL;
-        instagramHandleInput.value = CONFIG.INSTAGRAM_HANDLE;
-        if (whatsappNumberInput) whatsappNumberInput.value = CONFIG.WHATSAPP_NUMBER;
-        settingsModal.style.display = 'flex';
+    if (btnRestartDiagnostic) {
+      btnRestartDiagnostic.addEventListener('click', () => {
+        state.answers = { estrutura_pagina: '', qualificacao_lead: '', automacao_crm: '', faixa_faturamento: '' };
+        state.selectedOptionIds = { estrutura_pagina: '', qualificacao_lead: '', automacao_crm: '', faixa_faturamento: '' };
+        state.calculatedResultCategory = null;
+        state.checklistRequested = false;
+        offerInitialButtons.style.display = 'flex';
+        contactForm.style.display = 'none';
+        declineArea.style.display = 'none';
+        if (btnSubmitContact) {
+          btnSubmitContact.disabled = false;
+          btnSubmitContact.querySelector('span').textContent = 'Receber Análise Completa';
+        }
+        switchScreen('hero');
       });
     }
 
-    // Secret Admin Mode via URL parameter ?admin=1
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('admin') === '1' && settingsModal) {
-      webhookUrlInput.value = CONFIG.WEBHOOK_URL;
-      instagramHandleInput.value = CONFIG.INSTAGRAM_HANDLE;
-      if (whatsappNumberInput) whatsappNumberInput.value = CONFIG.WHATSAPP_NUMBER;
-      settingsModal.style.display = 'flex';
-    }
-
-    if (btnCloseModal) {
-      btnCloseModal.addEventListener('click', () => {
-        settingsModal.style.display = 'none';
+    if (privacyPolicyLink) {
+      privacyPolicyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Política de Privacidade Tekton Digital:\n\nOs dados informados (nome e WhatsApp) são armazenados de forma restrita e utilizados exclusivamente para o envio do checklist solicitado e para eventual atendimento de acompanhamento do seu diagnóstico comercial.');
       });
     }
 
-    if (btnSaveSettings) {
-      btnSaveSettings.addEventListener('click', () => {
-        const url = webhookUrlInput.value.trim();
-        const handle = instagramHandleInput.value.trim() || '@tekton.guilherme';
-        const waNum = whatsappNumberInput ? whatsappNumberInput.value.trim() : '';
 
-        CONFIG.WEBHOOK_URL = url;
-        CONFIG.INSTAGRAM_HANDLE = handle;
-        CONFIG.WHATSAPP_NUMBER = waNum;
-
-        localStorage.setItem('guilherme_webhook_url', url);
-        localStorage.setItem('guilherme_insta_handle', handle);
-        localStorage.setItem('guilherme_whatsapp_number', waNum);
-
-        updateInstagramLinks(handle);
-        settingsModal.style.display = 'none';
-        alert('Configurações salvas!');
-      });
-    }
-
-    // WhatsApp Input Live Mask: (XX) XXXXX-XXXX
+    // Máscara dinâmica para WhatsApp: (XX) XXXXX-XXXX
     if (contactValueInput) {
       contactValueInput.addEventListener('input', (e) => {
         let v = e.target.value.replace(/\D/g, '');

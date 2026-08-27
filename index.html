@@ -32,7 +32,8 @@
     <main class="main-card" id="mainCard">
 
       <!-- ========================================== -->
-      <!-- SCREEN 0: HERO / START (Layout Fiel à Imagem) -->
+      <!-- ========================================== -->
+      <!-- SCREEN 0: HERO / START                     -->
       <!-- ========================================== -->
       <section class="screen active" id="screenHero">
         
@@ -46,14 +47,14 @@
           </div>
         </div>
 
-        <!-- Container 1: 3 Pillars Grid -->
-        <div class="hero-pillars-card">
+        <!-- Container 1: 3 Pillars Grid (Subindo acima da margem inferior da foto) -->
+        <div class="hero-pillars-card hero-pillars-overlap">
           <div class="pillar-column">
             <div class="pillar-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
             </div>
             <div class="pillar-label">
-              Leads Mais <br><em>Qualificados</em>
+              Leads mais <br><em>preparados</em>
             </div>
           </div>
 
@@ -64,7 +65,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
             </div>
             <div class="pillar-label">
-              Menos Tempo com <br><em>Curiosos</em>
+              Menos leads <br><em>sem perfil</em>
             </div>
           </div>
 
@@ -72,15 +73,44 @@
 
           <div class="pillar-column">
             <div class="pillar-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             </div>
             <div class="pillar-label">
-              Processo Comercial <br><em>Automatizado</em>
+              Acompanhamento <br><em>organizado</em>
             </div>
           </div>
         </div>
 
-        <!-- Container 2: Authority Profile Card -->
+        <!-- Container 2: Main CTA Card (SEGUNDO CARD NA TELA) -->
+        <div class="hero-cta-card">
+          <div class="hero-badge-tag">DIAGNÓSTICO DO PROCESSO COMERCIAL</div>
+
+          <h1 class="cta-heading">
+            Identifique onde sua empresa está <em>perdendo leads e oportunidades.</em>
+          </h1>
+          
+          <p class="cta-subheading">
+            Em menos de 1 minuto, identifique se o principal gargalo está na página, na qualificação ou no acompanhamento dos seus contatos.
+          </p>
+
+          <button type="button" class="btn btn-cta-animated" id="btnStartDiagnostic">
+            <span class="btn-text">Fazer meu diagnóstico gratuito</span>
+            <svg class="btn-diagonal-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </button>
+
+          <div class="cta-card-divider"></div>
+
+          <div class="cta-micro-info">
+            <svg class="pulse-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Resultado inicial em menos de 1 minuto. Sem compromisso.</span>
+          </div>
+
+          <p class="cta-framing-line">
+            Para empresas que já recebem contatos, mas perdem oportunidades no processo comercial.
+          </p>
+        </div>
+
+        <!-- Container 3: Authority Profile Card (TERCEIRO CARD NA TELA) -->
         <div class="hero-authority-card">
           <div class="auth-identity">
             <h2 class="auth-name">Guilherme</h2>
@@ -90,26 +120,7 @@
           <div class="auth-divider"></div>
 
           <div class="auth-bio">
-            Especialista em estruturar estratégias de <em>atração de clientes qualificados, pré-venda e automação comercial.</em>
-          </div>
-        </div>
-
-        <!-- Container 3: Main CTA Card -->
-        <div class="hero-cta-card">
-          <p class="cta-heading">
-            Descubra onde seu comercial está <em>perdendo leads e como atrair clientes mais preparados para comprar.</em>
-          </p>
-
-          <button type="button" class="btn btn-cta-animated" id="btnStartDiagnostic">
-            <span class="btn-text">Fazer diagnóstico</span>
-            <svg class="btn-diagonal-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-          </button>
-
-          <div class="cta-card-divider"></div>
-
-          <div class="cta-micro-info">
-            <svg class="pulse-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <span>Resposta rápida em menos de 1 min</span>
+            Ajudo empresas B2B e serviços consultivos a estruturar <em>atração, pré-venda, qualificação e automação comercial.</em>
           </div>
         </div>
       </section>
@@ -153,7 +164,7 @@
           </div>
         </div>
 
-        <!-- Multi-select Action Bar (Step 2) -->
+        <!-- Multi-select Action Bar (if needed) -->
         <div class="question-footer-action" id="questionFooterAction" style="display: none;">
           <button type="button" class="btn btn-primary" id="btnStepContinue" disabled>
             <span>Continuar</span>
@@ -180,17 +191,36 @@
       <!-- ========================================== -->
       <section class="screen" id="screenResult">
         
+        <!-- PageSpeed Style Commercial Score Card -->
+        <div class="pagespeed-score-card">
+          <div class="score-ring-container">
+            <svg class="score-ring-svg" viewBox="0 0 120 120">
+              <circle class="score-ring-bg" cx="60" cy="60" r="50"></circle>
+              <circle class="score-ring-progress" id="scoreRingProgress" cx="60" cy="60" r="50"></circle>
+            </svg>
+            <div class="score-number-display">
+              <span class="score-value" id="scoreValue">0</span>
+              <span class="score-max">/100</span>
+            </div>
+          </div>
+          <div class="score-info">
+            <div class="score-status-badge" id="scoreStatusBadge">Análise de Performance</div>
+            <h3 class="score-title">Score de Eficiência Comercial</h3>
+            <p class="score-subtitle" id="scoreSubtitle">Nível de maturidade do seu processo de vendas</p>
+          </div>
+        </div>
+
         <!-- Outstanding Result Header Card -->
         <div class="result-header-card">
           <div class="result-badge-tag" id="resultTagContainer">
             <span class="result-badge-icon" id="resultIcon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
             </span>
-            <span id="resultTag">Gargalo: Qualificação & Filtro</span>
+            <span id="resultTag">GARGALO: PRÉ-VENDA E QUALIFICAÇÃO</span>
           </div>
-          <h1 class="result-title" id="resultTitle">Seu principal gargalo está na qualificação.</h1>
+          <h1 class="result-title" id="resultTitle">Seu principal gargalo parece estar na qualificação dos leads.</h1>
           <p class="result-text" id="resultText">
-            Você pode estar atraindo interessados, mas sem filtros para identificar quem realmente tem perfil de compra...
+            Sem perguntas estratégicas antes do atendimento, sua equipe pode perder horas com contatos sem perfil e deixar menos tempo para as oportunidades reais.
           </p>
         </div>
 
@@ -200,30 +230,25 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           </div>
           <p class="disclaimer-text">
-            Este é um <strong>indício inicial</strong> baseado nas suas escolhas. Uma análise aprofundada avalia o contexto completo do seu negócio.
+            Este é um <strong>indício inicial</strong> baseado nas suas respostas. Uma análise completa considera o contexto, a oferta e o processo comercial da sua empresa.
           </p>
-        </div>
-
-        <!-- Summary Recap (User Responses) -->
-        <div class="summary-recap-box">
-          <h4 class="summary-recap-title">Resumo do cenário selecionado:</h4>
-          <div class="summary-tags" id="summaryTags">
-            <!-- Populated dynamically -->
-          </div>
         </div>
 
         <hr class="divider">
 
         <!-- Conversion Offer Area -->
         <div class="checklist-offer-area" id="checklistOfferArea">
-          <h3 class="offer-title">Quer receber um checklist prático com os pontos para corrigir no seu processo?</h3>
+          <h3 class="offer-title">Quer receber uma análise completa do seu processo comercial?</h3>
+          <p class="offer-subtitle" id="offerSubtitleText">
+            Envie seu nome e WhatsApp para receber sua análise personalizada e conversar diretamente com Guilherme sobre o seu cenário.
+          </p>
           
           <div class="offer-actions" id="offerInitialButtons">
             <button type="button" class="btn btn-primary" id="btnAcceptChecklist">
-              <span>Sim, quero receber o checklist</span>
+              <span>Receber análise completa no WhatsApp</span>
             </button>
             <button type="button" class="btn btn-secondary" id="btnDeclineChecklist">
-              <span>Não, obrigado</span>
+              <span>Voltar para o Instagram</span>
             </button>
           </div>
 
@@ -238,28 +263,19 @@
             <div class="form-group">
               <label class="form-label" id="contactValueLabel" for="contactValueInput">Seu WhatsApp</label>
               <input type="tel" id="contactValueInput" class="form-control" placeholder="(11) 99999-9999" required>
-              <div class="form-error" id="contactValueError">Por favor, insira um WhatsApp válido.</div>
+              <div class="form-error" id="contactValueError">Por favor, insira um WhatsApp válido com DDD.</div>
             </div>
 
+            <p class="form-privacy-note">
+              Usaremos seus dados apenas para enviar a análise e entrar em contato sobre o diagnóstico. 
+              <a href="javascript:void(0)" id="privacyPolicyLink" class="privacy-link">Política de Privacidade</a>
+            </p>
+
             <button type="submit" class="btn btn-primary btn-full" id="btnSubmitContact">
-              <span>Enviar Meu Checklist</span>
+              <span>Receber Análise Completa</span>
               <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </button>
           </form>
-
-          <!-- Thank You / Success Card -->
-          <div class="success-card" id="successCard" style="display: none;">
-            <div class="success-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <h3 class="success-title">Checklist Solicitado!</h3>
-            <p class="success-text" id="successMessageText">Seus dados foram registrados com sucesso. Clique no botão abaixo para iniciar uma conversa direta no WhatsApp com Guilherme.</p>
-            
-            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-full" id="btnWhatsAppSuccess">
-              <svg class="btn-wa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 20px; height: 20px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>Falar com Guilherme no WhatsApp</span>
-            </a>
-          </div>
 
           <!-- Decline / Return State -->
           <div class="decline-area" id="declineArea" style="display: none;">
@@ -271,6 +287,31 @@
         </div>
       </section>
 
+
+      <!-- ========================================== -->
+      <!-- SCREEN 4: OBRIGADO / FASE WHATSAPP        -->
+      <!-- ========================================== -->
+      <section class="screen" id="screenThankYou">
+        <div class="thankyou-card">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h1 class="thankyou-title">Análise solicitada!</h1>
+          <p class="thankyou-text" id="thankYouMessageText">
+            Recebemos suas informações com sucesso. Clique no botão abaixo para iniciar uma conversa direta no WhatsApp com Guilherme e receber a análise detalhada do seu diagnóstico comercial.
+          </p>
+          
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-full btn-large" id="btnWhatsAppSuccess">
+            <svg class="btn-wa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 22px; height: 22px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <span>Falar com Guilherme no WhatsApp</span>
+          </a>
+
+          <div class="thankyou-footer-area">
+            <button type="button" class="btn-text-link" id="btnRestartDiagnostic">Refazer o diagnóstico</button>
+          </div>
+        </div>
+      </section>
+
     </main>
 
     <!-- Minimal Footer -->
@@ -278,34 +319,6 @@
       <p class="footer-copy">Tekton Digital &copy; <span id="currentYear">2026</span> &bull; Todos os direitos reservados</p>
     </footer>
 
-  </div>
-
-  <!-- Webhook Configuration Modal -->
-  <div class="modal-backdrop" id="settingsModal" style="display: none;">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>Configurações do Diagnóstico</h3>
-        <button type="button" class="btn-close-modal" id="btnCloseModal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p class="modal-help">Defina a URL de destino do Webhook, o número do seu WhatsApp de atendimento e seu Instagram.</p>
-        <div class="form-group">
-          <label class="form-label" for="webhookUrlInput">URL do Webhook</label>
-          <input type="url" id="webhookUrlInput" class="form-control" placeholder="https://seu-webhook.com/endpoint">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="whatsappNumberInput">Seu WhatsApp (com DDD, ex: 5511999999999)</label>
-          <input type="tel" id="whatsappNumberInput" class="form-control" placeholder="5511999999999">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="instagramHandleInput">Instagram (@usuario)</label>
-          <input type="text" id="instagramHandleInput" class="form-control" placeholder="@tekton.guilherme">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btnSaveSettings">Salvar Configurações</button>
-      </div>
-    </div>
   </div>
 
   <!-- Main JavaScript File -->
