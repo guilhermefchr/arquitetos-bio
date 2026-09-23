@@ -1,11 +1,4 @@
 {
   "version": 2,
-  "name": "diagnostico-comercial-tekton",
-  "cleanUrls": true,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  "cleanUrls": true
 }
